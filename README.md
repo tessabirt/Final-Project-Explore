@@ -42,8 +42,8 @@ The four lessons in this repo are organized as follows:
 
 -   shiny_demo.md - A walk through of creating a shiny application (using data from Week 4 geospatial). [Accompanying video here.](https://youtu.be/w0HHi8yQkmM)
 
--   quarto_website.qmd - Draft a personal website in Quarto (*note that this lesson was created in a Quarto doc, and its similarity to R Markdown!*). [Accompanying video here.](https://youtu.be/af-7OZnmOJ4)
+-   quarto_website.md - Draft a personal website in Quarto (*note that this lesson was created in a Quarto doc, and its similarity to R Markdown!*). [Accompanying video here.](https://youtu.be/af-7OZnmOJ4)
 
--   rmarkdown_demo.Rmd - Tips and tricks for customizing R Markdown and creating dynamic reports (no video).
+-   rmarkdown_demo.md - Tips and tricks for customizing R Markdown and creating dynamic reports (no video).
 
--   bookdown_demo.Rmd - Draft a `bookdown` site to host multiple R Markdown reports/blogs. [Accompanying video here.](https://youtu.be/1N3EZ7lyeyA)
+-   bookdown_demo.md - Draft a `bookdown` site to host multiple R Markdown reports/blogs. [Accompanying video here.](https://youtu.be/1N3EZ7lyeyA)
