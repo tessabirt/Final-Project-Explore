@@ -1,4 +1,4 @@
-# Week 6: Final project exploration
+# Final project exploration
 
 ## Goals
 
@@ -36,7 +36,7 @@ This repo contains lesson plans that allow you to demo and explore the various o
 
 ## Material
 
-There is **no assignment** for this week, but we highly recommend you work through all four demos to explore each option for your final project. When you find an option you'd like to pursue, we also recommend exploring the additional resources given above.
+These individual lessons are **not assignments**, but we highly recommend you work through all four demos to explore each option for your final project. When you find an option you'd like to pursue, we also recommend exploring the additional resources given above.
 
 The four lessons in this repo are organized as follows:
 
@@ -47,3 +47,14 @@ The four lessons in this repo are organized as follows:
 -   rmarkdown_demo.md - Tips and tricks for customizing R Markdown and creating dynamic reports (no video).
 
 -   bookdown_demo.md - Draft a `bookdown` site to host multiple R Markdown reports/blogs. [Accompanying video here.](https://youtu.be/1N3EZ7lyeyA)
+
+## Assignment
+
+For your final project you will choose **one** of the four tools we introduce you to above for sharing your research, results, coding examples, etc. and create your own version. You can choose to share code you've written for this class, your own research, a personal website to share your experience/career interests, whatever you make of it! The world is your oyster!
+
+**Submit:** To submit your final project, comment on the *Final Project Submission* issue in this repo's Issues tab with:
+
+1.  A link to the repo your final project code lives in
+2.  (if applicable) the live link to the site you made
+
+### Final projects (and all other work) will be due NO LATER than **Friday** **December 15** (end of day).
