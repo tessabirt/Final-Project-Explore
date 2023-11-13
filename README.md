@@ -40,10 +40,10 @@ There is **no assignment** for this week, but we highly recommend you work throu
 
 The four lessons in this repo are organized as follows:
 
--   [shiny_demo.Rmd](https://github.com/Data-Sci-Intro-2023/Week-6-Project-Explore/blob/master/shiny_demo.Rmd) - A walk through of creating a shiny application (using data from Week 4 geospatial)
+-   shiny_demo.md - A walk through of creating a shiny application (using data from Week 4 geospatial). [Accompanying video here.](https://youtu.be/w0HHi8yQkmM)
 
--   [quarto_website.qmd](https://github.com/Data-Sci-Intro-2023/Week-6-Project-Explore/blob/master/quarto_website.qmd) - Draft a personal website in Quarto (*note that this lesson was created in a Quarto doc, and its similarity to R Markdown!*)
+-   quarto_website.qmd - Draft a personal website in Quarto (*note that this lesson was created in a Quarto doc, and its similarity to R Markdown!*). [Accompanying video here.](https://youtu.be/af-7OZnmOJ4)
 
--   [rmarkdown_demo.Rmd](https://github.com/Data-Sci-Intro-2023/Week-6-Project-Explore/blob/master/rmarkdown_demo.Rmd) - Tips and tricks for customizing R Markdown and creating dynamic reports
+-   rmarkdown_demo.Rmd - Tips and tricks for customizing R Markdown and creating dynamic reports (no video).
 
--   [bookdown_demo.Rmd](https://github.com/Data-Sci-Intro-2023/Week-6-Project-Explore/blob/master/bookdown_demo.Rmd) - Draft a `bookdown` site to host multiple R Markdown reports/blogs
+-   bookdown_demo.Rmd - Draft a `bookdown` site to host multiple R Markdown reports/blogs. [Accompanying video here.](https://youtu.be/1N3EZ7lyeyA)
