@@ -1,0 +1,50 @@
+StreamStats Output Report,,,,,,,
+,,,,,,,
+State/Region ID,AZ,,,,,,
+Workspace ID,AZ20231202153904869000,,,,,,
+Latitude,35.97349,,,,,,
+Longitude,-113.7701,,,,,,
+Time,12/2/23, 8:39:47 AM,,,,,
+,,,,,,,
+Basin Characteristics,,,,,,,
+Parameter Code,Parameter Description,Value,Unit,,Parameter,Value,Unit
+BASINPERIM,Perimeter of the drainage basin as defined in SIR 2004-5262,4896.53,miles,,Basin Perimeter,4896.53,miles
+CONTDA,Area that contributes flow to a point on a stream,72578.12,square miles,,Basin Area,72578.12,square miles
+DRNAREA,Area that drains to a point on a stream,72578.12,square miles,,Drainage Density,2.37,square miles
+DRNDENSITY,Basin drainage density defined as total stream length divided by drainage area.,2.37,dimensionless,,Mean Basin Elevation,6237.354,length/drainage area
+ELEV,Mean Basin Elevation,6237.354,feet,,Mean Annual Precipitation,12.8,inches
+LAT_CENT,Latitude of Basin Centroid,36.3736,decimal degrees,,Mean Annual Temperature ,50.61,degrees F
+LC01BARE,"Percentage of area barren land, NLCD 2001 category 31",5.9,percent,,Forested Land,21.7,%
+LC01DEV,Percentage of land-use from NLCD 2001 classes 21-24,0.7,percent,,Herbaceous Upland,13.8,%
+LC01FOREST,Percentage of forest from NLCD 2001 classes 41-43,21.7,percent,,Barren Land,5.9,%
+LC01HERB,Percentage of herbaceous upland from NLCD 2001 class 71,13.8,percent,,Land-use,0.7,%
+LONG_CENT,Longitude Basin Centroid,-110.088,decimal degrees,,Total Length of all Mapped Streams,172239.32,miles
+MINBELEV,Minimum basin elevation,1153.44,feet,,,,
+PRECIP,Mean Annual Precipitation,12.8,inches,,,,
+STRMTOT,"total length of all mapped streams (1:24,000-scale) in the basin",172239.32,miles,,,,
+TEMP,Mean Annual Temperature,50.61,degrees F,,,,
+,,,,,,,
+,,,,,,,
+Peak-Flow Statistics Parameters,99.8 Percent Peak Region 2 Colorado Plateau 2014 5211,,,,,,
+Parameter Code,Parameter Name,Value,Units,Min Limit,Max Limit,,
+CONTDA,Contributing Drainage Area,72578.12,square miles,0.103,16017,,
+ELEV,Mean Basin Elevation,6237.354,feet,,,,
+,,,,,,,
+Peak-Flow Statistics Flow Report,99.8 Percent Peak Region 2 Colorado Plateau 2014 5211,,,,,,
+Statistic,Value,Unit,,,,,
+50-percent AEP flood,15200,ft^3/s,,,,,
+20-percent AEP flood,29200,ft^3/s,,,,,
+10-percent AEP flood,40600,ft^3/s,,,,,
+4-percent AEP flood,57100,ft^3/s,,,,,
+2-percent AEP flood,71300,ft^3/s,,,,,
+1-percent AEP flood,86600,ft^3/s,,,,,
+0.5-percent AEP flood,105000,ft^3/s,,,,,
+0.2-percent AEP flood,130000,ft^3/s,,,,,
+,,,,,,,
+"USGS Data Disclaimer: Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data for other purposes, nor on all computer systems, nor shall the act of distribution constitute any such warranty.",,,,,,,
+"USGS Software Disclaimer: This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.",,,,,,,
+"USGS Product Names Disclaimer: Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.",,,,,,,
+,,,,,,,
+Application Version: 4.19.1,,,,,,,
+StreamStats Services Version: 1.2.22,,,,,,,
+NSS Services Version: 2.3.2,,,,,,,

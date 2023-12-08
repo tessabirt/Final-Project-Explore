@@ -1,7 +1,12 @@
-Shiny Demo
-================
-Caitlin Mothes
-2023-03-01
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Shiny Demo
+
+Caitlin Mothes 2023-03-01
 
 ## Shiny Demo
 
@@ -9,8 +14,8 @@ Caitlin Mothes
 interactivity to another level through interactive web applications,
 allowing users to interact with any aspect of your data and analysis.
 You can host them as standalone web apps or embed them within R Markdown
-documents or build dashboards. And the best part is…**you can do it all
-within R, no web development skills required!**
+documents or build dashboards. And the best part is...**you can do it
+all within R, no web development skills required!**
 
 So, lets walk through the steps and build a quick shiny app! For this
 demo we are going to build off some of the data and interactive maps you
@@ -26,17 +31,17 @@ observation they were, and the range of elevation species were found at.
 Shiny apps are contained in a single script called `app.R` . `app.R` has
 three components:
 
-- a user interface (ui) object, which controls the layout and appearance
-  of your app
+-   a user interface (ui) object, which controls the layout and
+    appearance of your app
 
-- a server function, which contains the instructions needed to build
-  your app
+-   a server function, which contains the instructions needed to build
+    your app
 
-- a call to `shinyApp()` which creates your web application based on
-  your ui/server objects.
+-   a call to `shinyApp()` which creates your web application based on
+    your ui/server objects.
 
-Let’s create a new shiny app by going to File -\> New File -\> Shiny Web
-App. Call it something like ‘shinyDemo’, and save it in the project
+Let's create a new shiny app by going to File -\> New File -\> Shiny Web
+App. Call it something like 'shinyDemo', and save it in the project
 directory (which should be the default). Keep all other default
 settings.
 
@@ -56,7 +61,7 @@ RStudio actually gives you a template app to work with by filling in the
 `ui` and `server` elements with some demo widgets and data. We can
 actually run this script and make our first shiny app!
 
-To run this app, from the `app.R` script click the ‘Run App’ button in
+To run this app, from the `app.R` script click the 'Run App' button in
 the upper right with the green arrow.
 
 ![](www/oldfaithful.png)
@@ -68,7 +73,7 @@ settings (`sliderInput()`) and a placeholder for an output
 (`plotOutput()`). One of the most important things to notice is that
 each widget or output in the `ui` must be given an ID, which is the
 first argument in each function (e.g., the ID for `sliderInput()` is
-“bins”, the ID for the `plotOutput()` is “distPlot”).
+"bins", the ID for the `plotOutput()` is "distPlot").
 
 These IDs are how you define what happens on the server side. When we
 look at this server code, we create the plot output by calling
@@ -79,7 +84,7 @@ the plot (in this case, changing the bin size of the plot).
 
 ## Create a shiny app for Colorado species occurrence data
 
-Now that you’ve seen some of the fundamental structure of a shiny app,
+Now that you've seen some of the fundamental structure of a shiny app,
 lets make our own using data from Week 4 Geospatial lesson.
 
 First, load the shiny demo data (located in the data/ folder) and
@@ -100,7 +105,7 @@ occ
 have attributes for the species, year and month of observation, type of
 observation, and the elevation at that occurrence. We also loaded in the
 park boundary polygon for Rocky Mountain National Park (ROMO) that we
-will add to the map as well. Let’s use `tmap` to make an interactive map
+will add to the map as well. Let's use `tmap` to make an interactive map
 of all these layers. *Note: this is pulling from some of the code in the
 Week 4 Geospatial spatial-viz.Rmd lesson.*
 
@@ -228,7 +233,7 @@ ui <- fluidPage(
 ```
 
 With this updated `ui` in the `app.R` script, you can actually **run the
-app** and see what the interface looks like, there just won’t be any
+app** and see what the interface looks like, there just won't be any
 outputs or reactivity yet.
 
 ### Define the `server`
@@ -238,7 +243,7 @@ user interacts with the application) that draws a map based on the user
 inputs.
 
 Essentially we can take the tmap code above to create the interactive
-map, but what’s changing now is our `occ` data set, which will be
+map, but what's changing now is our `occ` data set, which will be
 filtered based on the user inputs in the `ui`. When an environmental
 object changes based on user inputs, we call this a *reactive* object
 and define it within the `reactive()` function. When you later use that

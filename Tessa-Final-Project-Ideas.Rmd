@@ -1,0 +1,474 @@
+---
+title: "Final-Project"
+author: "Tessa Birt"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Final Project Ideas
+
+-   Colorado River map with data
+
+    -   water levels, peak flow, drought severity
+
+-   Lake Mead
+
+    -   water level each year
+
+    -   Drought intensity map
+
+-   USGS data
+
+Map of Lake Mead USGS
+
+```{r}
+install.packages("rnaturalearth")
+install.packages("sf")
+
+library(dataRetrieval)
+library(rnaturalearth)
+library(sf)
+library(dplyr)
+
+site_number <- "15010005"
+pCode <- "00062"
+start.date <- "2001-10-01"
+end.date <- "2022-09-30"
+lakemead_data <- readNWISuv(site_number, parameterCd = pCode, startDate = start.date,
+                     endDate = end.date)
+```
+
+```{r}
+library(shiny)
+
+Year <- c(2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+          2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021,
+          2022)
+mead_annual_peak <- c(1760, 1549, 1388, 1967, 1326, 1765, 1814, 1693, 1502, 1751)
+mead_annual_low <- c(2176, 3154, 1138, 1196, 2132, 3176, 4181, 5169, 3150, 4175)
+mead_annual_average  <- c(2176, 3154, 1138, 1196, 2132, 3176, 4181, 5169, 3150, 4175)
+my_data <- as.data.frame(cbind(Year,Auckland,Wellington, Lyttelton))
+
+ui <- fluidPage(
+    titlePanel("New Zealand Annual Mean Sea Level (MSL) Summary"),
+
+    sidebarLayout(
+        sidebarPanel(
+            helpText("Annual Mean Sea Level Summary for various locations around NZ."),
+
+            selectInput("var", 
+                        label = "Choose a Location",
+                        choices = c("Auckland",
+                                    "Lyttelton",
+                                    "Wellington"),
+                        selected = "Auckland"),
+
+            sliderInput("range", 
+                        label = "Choose a start and end year:",
+                        min = min(my_data$Year), max = max(my_data$Year), value = c(2003, 2008),sep = "",)
+        ),
+
+        mainPanel(
+            tableOutput("DataTable")
+        )
+    )
+)
+server <- function(input, output) {
+
+    output$DataTable <- renderTable({
+        dt <- my_data[my_data$Year >= input$range[1] & my_data$Year <= input$range[2],]
+        dt[,c("Year",input$var)]
+    },include.rownames=FALSE)
+
+}
+shinyApp(ui, server)
+```
+
+Yearly peak and low water levels:
+
+<https://www.usbr.gov/lc/region/g4000/lakemead_line.pdf>
+
+Monthly data:
+
+<https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html>
+
+```{r}
+library(readxl)
+LakeMead_Monthly_ <- read_excel("~/Desktop/Environmental Data Sci/Tessa-Final-Project-Explore/LakeMead_Monthly.xlsx")
+View(LakeMead_Monthly_)
+
+Mead_monthly_filtered <- LakeMead_Monthly_ %>%
+  filter(Year > 2000)
+
+Mean_mead <- Mead_monthly_filtered %>%
+ mutate(across(starts_with(c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")), as.numeric)) %>%
+  mutate(yearly_mean = rowMeans(select(., starts_with(c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"))), na.rm = TRUE))
+
+mead_means <- subset(Mean_mead, select = c(Year, yearly_mean))
+
+#Load in mead high and low 
+library(readxl)
+Mead_high_low <- read_excel("Mead_high_low.xlsx")
+View(Mead_high_low)
+
+
+```
+
+Join Data
+
+```{r}
+joined_mead <- left_join(Mead_high_low, mead_means, by = "Year")
+```
+
+Plot high, low, and mean
+
+```{r}
+library(tidyr)
+library(ggplot2)
+mead_long <- clean_mead %>%
+  gather(key = "depth_type", value = "depth", -Year)
+
+ggplot(mead_long, aes(x = Year, y = depth, color = depth_type)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Yearly Water Depth for Lake Mead",
+       x = "Year",
+       y = "Water Depth",
+       color = "Depth Type") +
+  theme_minimal()
+
+joined_mead$Mean <- joined_mead$yearly_mean
+
+clean_mead <- subset(joined_mead, select = -yearly_mean)
+```
+
+Shiny App Workflow
+
+```{r}
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  # Application title
+  titlePanel("Lake Mead Depth"),
+  
+  # Sidebar with a slider input for number of bins 
+  selectInput("depth_type", "Select Depth Type",
+              choices = c("Low", "Mean", "High"),
+              selected = "Mean"),
+  
+  # Show a plot of the generated distribution
+  mainPanel(
+    plotOutput("depth_plot")
+  )
+) 
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  selected_data <- reactive({
+    filter(mead_long, depth_type == input$depth_type)
+  })
+  
+  output$depth_plot <- renderPlot({
+    ggplot(data = selected_data(), aes(x = Year, y = depth)) +
+      geom_line() +
+      geom_point() +
+      labs(title = paste(input$depth_type, "Lake Mead Water Depth"),
+           x = "Year", y = "Water Depth")
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+Shapefiles
+
+```{r}
+library(sf)
+library(leaflet)
+library(dplyr)
+
+shapefile_2001 <- st_read("USDM_20010102_M/USDM_20010102.shp")
+
+my_map_2001 <- leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = shapefile_2001, fillOpacity = 0.5)
+
+print(my_map_2001)
+
+shapefile_2022 <- st_read("USDM_20221227_M/USDM_20221227.shp")
+
+my_map_2022 <- leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = shapefile_2022, fillOpacity = 0.5)
+
+print(my_map_2022)
+```
+
+```{r}
+shapefile_2001 <- st_read("USDM_20010102_M/USDM_20010102.shp")
+
+bbox22 <- st_bbox(c(xmin = -114.8395, ymin = 36.001, xmax = -114.0988, ymax = 36.4334), crs = st_crs(shapefile_2022))
+
+shapefile <- st_make_valid(shapefile_2022)
+
+cropped_2022 <- st_crop(shapefile, bbox22)
+
+print(cropped_2022)
+
+mymap2022 <- cropped_2022 %>%
+  leaflet() %>%
+  addTiles() %>%
+  addPolygons()
+
+print(mymap2022)
+```
+
+Mead depth ggplot and table workflow shiny
+
+```{r}
+library(shiny)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  titlePanel("Lake Mead Water Depth Analysis"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("year", "Select Year:", min = 2001, max = 2022, value = 2001, step = 1, sep = "")
+    ),
+    
+    mainPanel(
+      plotOutput("staticPlot"),
+      tableOutput("summaryTable")
+    )
+  )
+)
+
+# Define server
+server <- function(input, output) {
+
+  # Create ggplot based on filtered data
+  static_plot <- ggplot(mead_long, aes(x = Year, y = depth, color = depth_type)) +
+    geom_line() +
+    labs(title = "Yearly Water Depth for Lake Mead",
+         x = "Year",
+         y = "Water Depth",
+         color = "Depth Type") +
+    theme_minimal()
+  
+  # Display static plot
+  output$staticPlot <- renderPlot({
+    print(static_plot)
+  })
+  
+  filtered_data <- reactive({
+    filter(mead_long, Year == input$year)
+  })
+  
+  # Create summary table based on filtered data
+  output$summaryTable <- renderTable({
+    summary_data <- filtered_data() %>%
+      summarise(
+        Low = min(depth),
+        Mean = mean(depth),
+        High = max(depth)
+      )
+    summary_data
+  })
+}
+
+# Run the app
+shinyApp(ui, server)
+```
+
+```{r}
+lake_mead_bbox <- c(left = -114.8, bottom = 36, right = -114.1, top = 36.4)
+```
+
+drought monitor shpfiles <https://droughtmonitor.unl.edu/DmData/GISData.aspx>
+
+```{r}
+install.packages("webshot")
+library(leaflet)
+library(htmlwidgets)
+library(webshot)
+kml_data <- st_read("23mead.kml")
+st_write(kml_data, "23mead.shp", layer_options = "SHPT=POLYGON") 
+
+basin <- st_read("globalwatershed.shp")
+
+#centroid <- st_centroid(sfmead23)
+
+#m <- leaflet(basin) %>%
+# addTiles()
+
+ m <-  leaflet() %>%
+     addProviderTiles("OpenStreetMap.Mapnik") %>%
+     addPolygons(data = basin, fillOpacity = 0.25)
+    
+    m <- addProviderTiles(m, providers$Esri.WorldImagery)
+    m <- addPolygons(m, data = sfmead23)
+    m
+    
+
+```
+
+bslib package for theme
+
+Updated app 11/29
+
+```{r}
+library(shiny)
+library(leaflet)
+library(htmlwidgets)
+library(htmltools)
+library(ggplot2)
+library(dplyr)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  titlePanel("Lake Mead Water Depth Analysis"),
+    
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Plot", plotOutput("staticPlot")), 
+        tabPanel("Table", tableOutput("summaryTable"),  sliderInput("year", "Select Year:", min = 2001, max = 2022, value = 2001, step = 1, sep = "")
+        ),
+        tabPanel("Map", leafletOutput("map"))
+      )
+      )
+    )
+
+# Define server
+server <- function(input, output) {
+
+  # Create ggplot based on filtered data
+  static_plot <- ggplot(mead_long, aes(x = Year, y = depth, color = depth_type)) +
+    geom_line() +
+    labs(title = "Yearly Water Depth for Lake Mead",
+         x = "Year",
+         y = "Water Depth",
+         color = "Depth Type") +
+    theme_minimal()
+  
+  # Display static plot
+  output$staticPlot <- renderPlot({
+    print(static_plot)
+  })
+  
+  filtered_data <- reactive({
+    filter(mead_long, Year == input$year)
+  })
+  
+  # Create summary table based on filtered data
+  output$summaryTable <- renderTable({
+    summary_data <- filtered_data() %>%
+      summarise(
+        Low = min(depth),
+        Mean = mean(depth),
+        High = max(depth)
+      )
+    summary_data
+  })
+
+  output$map <- renderLeaflet({
+    leaflet() %>%
+      addProviderTiles("OpenStreetMap.Mapnik") %>%
+      addPolygons(data = shapefile_2022, fillOpacity = 0.5, color = "red")
+  })
+}
+# Run the app
+shinyApp(ui, server)
+```
+
+Getting data for 2001 map (this code did not work but I want to keep this)
+
+```{r}
+install.packages("rgee")
+install.packages("reticulate")
+Sys.setenv(RETICULATE_PYTHON = "/Users/tessabirt/anaconda3/bin/python3")
+library(reticulate)
+use_python("/Users/tessabirt/anaconda3/bin/python3")
+library(rgee)
+rgee::ee_install()
+reticulate::use_python()
+ee_install_upgrade()
+rgee::ee_clean_pyenv()
+ee_install_set_pyenv()
+ee_Initialize()
+
+start_date <- "2001-06-01"
+end_date <- "2001-06-02"
+
+image_collection <- ee$ImageCollection("LANDSAT/LT05/C01/T1_SR")$
+  filterBounds(centroid) %>%
+  filterDate(start_date, end_date)
+
+selected_image <- image_collection$first()
+
+image_url <- selected_image$getMap(list("bands" = "B4,B3,B2", "min" = "0", "max" = "3000"))
+
+leaflet() %>%
+  setView(lng = as.numeric(st_coordinates(centroid)[, "X"]),
+          lat = as.numeric(st_coordinates(centroid)[, "Y"]),
+          zoom = 12) %>%
+  addTiles() %>%
+  addRasterImage(image_url, opacity = 0.8, colors = "RGB", layerId = "historical_imagery") %>%
+  addPolygons(data = sfmead23)
+```
+
+Take two
+
+```{r}
+ image_path <- sprintf("path\\to\\images\\LM%s.png", year)
+```
+
+```{r}
+install.packages("bslib")
+install.packages("htmltools")
+
+library(bslib)
+
+```
+
+```{r}
+library(sf)
+
+basin <- st_read("globalwatershed.shp")
+```
+
+```{r}
+#streamstats
+library(readr)
+MeadStreamStats <- read_csv("MeadStreamStats.csv")
+View(MeadStreamStats)
+
+library(readxl)
+AEPmead <- read_excel("AEPmead.xlsx")
+View(AEPmead)
+```
+
+AEP Curve plot
+
+```{r}
+ ggplot(AEPmead, aes(x = Statistic, y = Value)) +
+  geom_line(color = "#0f4d92") +
+  scale_y_continuous(labels = scales::comma) + 
+  labs(
+    title = "Annual Exceedance Probability Curve", 
+    x = "Percent AEP Flood", 
+    y = "Flow (cf/s)"
+  )
+```
+
+```{r}
+#Stream stats
+
+library(readxl)
+meadstats <- read_excel("MeadStats.xlsx")
+```

@@ -1,0 +1,24 @@
+---
+title: "MachineLearning"
+author: "Tessa Birt"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("xgboost")
+install.packages("Metrics")
+library(dplyr)
+library(ggplot2)
+library(xgboost)
+library(Metrics)
+```
+
+## Machine Learning with Matt Ross
+
+There's often a trade off with machine learning and choosing between quantity and quality.
+
+When your train and validation values start to diverge that indicated that you are over training.
+
+Minimizing the distance between the two scores is the goal.
