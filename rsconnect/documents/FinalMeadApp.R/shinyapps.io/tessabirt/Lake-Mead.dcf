@@ -1,0 +1,12 @@
+name: Lake-Mead
+title: Lake-Mead
+username: tessabirt
+account: tessabirt
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10753890
+bundleId: 8025920
+url: https://tessabirt.shinyapps.io/Lake-Mead/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

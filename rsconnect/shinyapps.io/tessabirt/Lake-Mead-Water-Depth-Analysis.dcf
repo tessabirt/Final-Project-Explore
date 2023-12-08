@@ -1,0 +1,13 @@
+name: Lake-Mead-Water-Depth-Analysis
+title: Lake-Mead-Water-Depth-Analysis
+username: tessabirt
+account: tessabirt
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10753464
+bundleId: 8025874
+url: https://tessabirt.shinyapps.io/Lake-Mead-Water-Depth-Analysis/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 23mead.dbf|23mead.kml|23mead.prj|23mead.shp|23mead.shx|bookdown_demo.md|data/shinyDemoData.RData|lesson_dev-InstructorOnly/bookdown_demo.Rmd|lesson_dev-InstructorOnly/quarto_website.qmd|lesson_dev-InstructorOnly/rmarkdown_demo.Rmd|lesson_dev-InstructorOnly/shiny_demo.Rmd|MachineLearning.Rmd

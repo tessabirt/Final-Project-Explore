@@ -18,7 +18,7 @@ library(readxl)
 library(plotly)
 
 
-meaddata <- readxl::read_excel("~/Desktop/Environmental Data Sci/Tessa-Final-Project-Explore/Mead_high_low_mean.xlsx")
+meaddata <- readxl::read_excel("Mead_high_low_mean.xlsx")
 mead_long <- meaddata %>%
   tidyr::gather(key = "depth_type", value = "depth", -Year)
 basin <- st_read("globalwatershed.shp")
@@ -206,3 +206,5 @@ output$selected_value_unit <- renderText({
 }
 # Run the app
 shinyApp(ui, server)
+
+
